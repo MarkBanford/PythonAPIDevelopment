@@ -1,34 +1,24 @@
 '''uvicorn main:app --reload
-POSTMAN app for testing  1:14
+POSTMAN app for testing
+Below is an inventory management system
 '''
-
+from enum import Enum
 from fastapi import FastAPI
-from fastapi.params import Body
 from pydantic import BaseModel
 
 app = FastAPI()
 
 
-#  post schema
-class Post(BaseModel):
-    title: str
-    content: str
-    published: bool = True
+class Category(Enum):
+    TOOLS = "tools"
+    CONSUMABLES = "consumables"
 
 
-@app.get("/")  # Uses get method and "/" path
-async def root():
-    return {"message": "welcome to my api"}
+class Item(BaseModel):
+    name: str
+    price: float
+    count: int
+    id: int
+    category: Category
 
 
-@app.get("/posts")
-def get_posts():
-    return {"data": "This is your post"}
-
-
-@app.post("/createposts")
-def create_posts(new_post: Post):
-    print(new_post.published)
-    return {"data": "new post"}
-
-# title str, content str
